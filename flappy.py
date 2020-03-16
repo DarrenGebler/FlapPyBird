@@ -234,6 +234,18 @@ class Flappyplayer():
                     return True
         return False
 
+    def showScore(self, score):
+        scoreDigits = [int(x) for x in list(str(score))]
+        totalWidth = 0
+
+        for digit in scoreDigits:
+            totalWidth += IMAGES['numbers'][digit].get_width()
+
+        Xoffset = (SCREENWIDTH - totalWidth)/2
+        for digit in scoreDigits:
+            SCREEN.blit(IMAGES['numbers'][digit], (Xoffset, SCREENHEIGHT*0.1))
+            Xoffset += IMAGES['numbers'][digit].get_width()
+
     def pixelCollision(self, rect1, rect2, hitmask1, hitmask2):
         """Checks if two objects collide and not just their rects"""
         rect = rect1.clip(rect2)
@@ -313,6 +325,7 @@ class Flappyplayer():
         # if self.playerRot <= self.playerRotThr:
         #     visibleRot = self.playerRot
         # playerSurface = pygame.transform.rotate(IMAGES['player'][self.player_index], visibleRot)
+        self.showScore(self.score)
         SCREEN.blit(IMAGES['player'][self.player_index], (self.player_x, self.player_y))
         for uPipe, lPipe in zip(self.upperPipes, self.lowerPipes):
             SCREEN.blit(IMAGES['pipe'][0], (uPipe['x'], uPipe['y']))
